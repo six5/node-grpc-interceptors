@@ -1,12 +1,11 @@
-const path = require('path');
-const protobufjs = require('protobufjs');
-const grpc = require('grpc');
+const path = require('path')
+const protoLoader = require('@grpc/proto-loader')
+const grpc = require('grpc')
 
-const proto = protobufjs.loadSync(
-    path.resolve(__dirname, 'message.proto'),
-    new protobufjs.Root({ keepCase: true })
-);
+const packageDefinition = protoLoader.loadSync(path.resolve(__dirname, 'message.proto'), {
+  keepCase: true,
+})
 
-const root = grpc.loadObject(proto);
+const packageObject = grpc.loadPackageDefinition(packageDefinition)
 
-module.exports = root;
+module.exports = packageObject
